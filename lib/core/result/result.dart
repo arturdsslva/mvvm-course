@@ -1,8 +1,8 @@
-abstract class Result<T> {
+sealed class Result<T> {
   const Result();
 
   factory Result.ok(T value) = Ok._;
-  factory Result.error(Exception error) = Error._;
+  factory Result.err(Exception error) = Err._;
 }
 
 final class Ok<T> extends Result<T> {
@@ -10,20 +10,20 @@ final class Ok<T> extends Result<T> {
   const Ok._(this.value);
 }
 
-final class Error<T> extends Result<T> {
+final class Err<T> extends Result<T> {
   final Exception error;
-  const Error._(this.error);
+  const Err._(this.error);
 }
 
-extension ResultExtension on Object {
-  Result ok() => Result.ok(this);
+extension ResultExtension<T> on T {
+  Result<T> ok() => Result.ok(this);
 }
 
 extension ResultExceptionExtension on Exception {
-  Result error() => Result.error(this);
+  Result<Never> error() => Result.err(this);
 }
 
 extension ResultCastingExtension<T> on Result<T> {
   Ok<T> get asOk => this as Ok<T>;
-  Error<T> get asError => this as Error<T>;
+  Err<T> get asErr => this as Err<T>;
 }
