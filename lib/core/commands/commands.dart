@@ -2,23 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../result/result.dart';
 
-typedef CommandAction0<Output extends Object> =
-    Future<Result<Output>> Function();
+typedef CommandAction0<T> = Future<Result<T>> Function();
 
-typedef CommandAction1<Output extends Object, Input extends Object> =
-    Future<Result<Output>> Function(Input input);
+typedef CommandAction1<T, A> = Future<Result<T>> Function(A input);
 
-abstract class Command<Output extends Object> extends ChangeNotifier {
+abstract class Command<T> extends ChangeNotifier {
   bool _running = false;
   bool get running => _running;
 
-  Result<Output>? _result;
-  Result<Output>? get result => _result;
+  Result<T>? _result;
+  Result<T>? get result => _result;
 
   bool get completed => _result is Ok;
-  bool get error => _result is Error;
+  bool get error => _result is Err;
 
-  Future<void> _execute(CommandAction0<Output> action) async {
+  Future<void> _execute(CommandAction0<T> action) async {
     if (_running) return;
 
     _running = true;
@@ -35,18 +33,16 @@ abstract class Command<Output extends Object> extends ChangeNotifier {
   }
 }
 
-class Command0<Output extends Object> extends Command<Output> {
-  final CommandAction0<Output> action;
+class Command0<T> extends Command<T> {
+  final CommandAction0<T> action;
   Command0(this.action);
 
   Future<void> execute() async => await _execute(action);
 }
 
-class Command1<Output extends Object, Input extends Object>
-    extends Command<Output> {
-  final CommandAction1<Output, Input> action;
+class Command1<T, A> extends Command<T> {
+  final CommandAction1<T, A> action;
   Command1(this.action);
 
-  Future<void> execute(Input input) async =>
-      await _execute(() => action(input));
+  Future<void> execute(A input) async => await _execute(() => action(input));
 }
