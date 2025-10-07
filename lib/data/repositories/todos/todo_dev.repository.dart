@@ -26,6 +26,6 @@ class TodoDevRepository implements TodoRepository {
 
   @override
   Future<Result<List<Todo>>> get() {
-    return Future.value(Result.ok(List.unmodifiable(_todos)));
+    return Future.value(Result.ok(List.from(_todos)));
   }
 }
