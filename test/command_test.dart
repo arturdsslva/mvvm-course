@@ -37,7 +37,7 @@ void main() {
     });
     test('should execute Command0 with error', () async {
       final exception = Exception('Command failed');
-      final command = Command0<int>(() async => Result.error(exception));
+      final command = Command0<int>(() async => Result.err(exception));
 
       expect(command.running, false);
       expect(command.result, null);
@@ -54,8 +54,8 @@ void main() {
       await future;
 
       expect(command.running, false);
-      expect(command.result, isA<Error<int>>());
-      expect(command.result!.asError.error, exception);
+      expect(command.result, isA<Err<int>>());
+      expect(command.result!.asErr.error, exception);
       expect(command.completed, false);
       expect(command.error, true);
     });
@@ -97,7 +97,7 @@ void main() {
     test('should execute Command1 with error', () async {
       final exception = Exception('Command1 failed');
       final command = Command1<String, int>(
-        (input) async => Result.error(exception),
+        (input) async => Result.err(exception),
       );
 
       expect(command.running, false);
@@ -115,8 +115,8 @@ void main() {
       await future;
 
       expect(command.running, false);
-      expect(command.result, isA<Error<String>>());
-      expect(command.result!.asError.error, exception);
+      expect(command.result, isA<Err<String>>());
+      expect(command.result!.asErr.error, exception);
       expect(command.completed, false);
       expect(command.error, true);
     });

@@ -10,7 +10,7 @@ void main() {
     });
     test('Ok Result should not be Error', () {
       final result = Result.ok('Hello');
-      expect(result, isNot(isA<Error<String>>()));
+      expect(result, isNot(isA<Error>()));
     });
     test('should create an Ok Result with value using extension', () {
       final value = 'Test Value';
@@ -19,13 +19,13 @@ void main() {
     });
     test('should create Error Result with exception', () {
       final exception = Exception('An error occurred');
-      final result = Result.error(exception);
-      expect(result, isA<Error<Object>>());
-      expect(result.asError.error, exception);
+      final result = Result<String>.err(exception);
+      expect(result, isA<Err<String>>());
+      expect(result.asErr.error, exception);
     });
     test('Error Result should not be Ok', () {
       final exception = Exception('Another error');
-      final result = Result.error(exception);
+      final result = Result<int>.err(exception);
       expect(result, isNot(isA<Ok<Object>>()));
     });
   });
