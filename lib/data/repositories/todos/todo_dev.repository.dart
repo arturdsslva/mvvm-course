@@ -20,7 +20,7 @@ class TodoDevRepository implements TodoRepository {
       _todos.remove(todo);
       return Future.value(Result.ok(null));
     } else {
-      return Future.value(Result.error(Exception('Todo not found')));
+      return Future.value(Result.err(Exception('Todo not found')));
     }
   }
 
