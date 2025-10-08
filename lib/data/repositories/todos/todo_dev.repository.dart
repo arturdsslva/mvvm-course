@@ -1,4 +1,4 @@
-import 'package:mvvm_course/core/result/result.dart';
+import 'package:mvvm_course/utils/result/result.dart';
 
 import 'package:mvvm_course/domain/models/todo.model.dart';
 

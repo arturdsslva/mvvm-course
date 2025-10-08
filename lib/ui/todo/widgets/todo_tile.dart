@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/typedefs/todo.types.dart';
+import '../../../utils/typedefs/todo.types.dart';
 import '../../../domain/models/todo.model.dart';
 
 class TodoTile extends StatelessWidget {

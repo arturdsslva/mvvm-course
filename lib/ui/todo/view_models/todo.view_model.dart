@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../../../data/repositories/todos/todo.repository.dart';
-import '../../../core/commands/commands.dart';
-import '../../../core/result/result.dart';
+import '../../../utils/commands/commands.dart';
+import '../../../utils/result/result.dart';
 import '../../../domain/models/todo.model.dart';
 
 class TodoViewModel extends ChangeNotifier {

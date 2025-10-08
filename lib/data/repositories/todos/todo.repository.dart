@@ -1,4 +1,4 @@
-import '../../../core/result/result.dart';
+import '../../../utils/result/result.dart';
 import '../../../domain/models/todo.model.dart';
 
 abstract class TodoRepository {
