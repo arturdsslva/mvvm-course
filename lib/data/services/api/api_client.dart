@@ -2,7 +2,6 @@ import 'dart:convert' show Utf8Decoder, jsonDecode, jsonEncode;
 import 'dart:io' show HttpClient, HttpException;
 
 import 'package:mvvm_course/utils/result/result.dart';
-import 'package:mvvm_course/extensions/todo.mapper.dart';
 import '../../../domain/models/todo.model.dart';
 
 class ApiClient {
@@ -25,7 +24,7 @@ class ApiClient {
         final stringData = await response.transform(const Utf8Decoder()).join();
         final jsonData = jsonDecode(stringData) as List<dynamic>;
         final List<Todo> todos = jsonData
-            .map((e) => (e as Map<String, dynamic>).toTodo())
+            .map((e) => Todo.fromJson(e as Map<String, dynamic>))
             .toList();
         return Result.ok(todos);
       }
@@ -38,17 +37,17 @@ class ApiClient {
     }
   }
 
-  Future<Result<Todo>> postTodo(Todo todo) async {
+  Future<Result<Todo>> postTodo(String title) async {
     final client = _clientHttpFactory();
     try {
       final request = await client.post(_host, _port, '/todos');
-      request.write(jsonEncode(todo.toCreateJson()));
+      request.write(jsonEncode({'title': title}));
       final response = await request.close();
 
       if (response.statusCode == 201) {
         final stringData = await response.transform(Utf8Decoder()).join();
         final jsonData = jsonDecode(stringData) as Map<String, dynamic>;
-        final Todo newTodo = jsonData.toTodo();
+        final Todo newTodo = Todo.fromJson(jsonData);
         return Result.ok(newTodo);
       }
 
