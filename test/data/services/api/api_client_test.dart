@@ -19,14 +19,14 @@ void main() {
     });
     test('postTodo creates a new todo', () async {
       final todo = Todo(title: 'New Todo - ${Random().nextInt(1000)}');
-      final result = await apiClient.postTodo(todo.title);
+      final result = await apiClient.postTodo(todo);
       expect(result, isA<Result<Todo>>());
       expect(result.asOk.value, isA<Todo>());
       expect(result.asOk.value.title, equals(todo.title));
     });
     test('should delete a todo', () async {
       final todo = Todo(title: 'New Todo - ${Random().nextInt(1000)}');
-      final result = await apiClient.postTodo(todo.title);
+      final result = await apiClient.postTodo(todo);
       expect(result, isA<Result<Todo>>());
       expect(result.asOk.value, isA<Todo>());
       expect(result.asOk.value.title, equals(todo.title));
