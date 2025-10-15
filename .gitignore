@@ -46,3 +46,5 @@ app.*.map.json
 
 # npm
 node_modules/
+
+server/db.json
