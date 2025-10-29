@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'data/repositories/todos/todo_dev.repository.dart';
-import 'ui/todo/view_models/todo.view_model.dart';
-
-import 'ui/todo/widgets/todo.screen.dart';
+import 'package:mvvm_course/routing/router.dart';
 
 void main(List<String> args) {
   runApp(const MyApp());
@@ -13,10 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TodoScreen(
-        viewModel: TodoViewModel(todoRepository: TodoDevRepository()),
-      ),
-    );
+    return MaterialApp.router(routerConfig: routerConfig());
   }
 }
