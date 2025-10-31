@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:mvvm_course/routing/routes.dart';
+import 'package:mvvm_course/ui/todo_details/widgets/todo_details.screen.dart';
 
 import '../data/repositories/todos/todos_remote.repository.dart';
 import '../data/services/api/api_client.dart';
@@ -16,11 +17,21 @@ GoRouter routerConfig() {
           return TodoScreen(
             viewModel: TodoViewModel(
               todoRepository: TodosRemoteRepository(
-                apiClient: ApiClient(host: "192.168.2.100"),
+                apiClient: ApiClient(host: "192.168.2.104"),
               ),
             ),
           );
         },
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+
+              return TodoDetailsScreen(id: id);
+            },
+          ),
+        ],
       ),
     ],
   );
