@@ -1,4 +1,4 @@
-import 'dart:convert' show Utf8Decoder, jsonDecode, jsonEncode;
+import 'dart:convert' show Utf8Decoder, jsonDecode, jsonEncode, utf8;
 import 'dart:io' show HttpClient, HttpException;
 
 import 'package:mvvm_course/utils/result/result.dart';
@@ -69,6 +69,28 @@ class ApiClient {
         return Result.ok(null);
       }
       return Result.err(const HttpException('Failed to delete todo'));
+    } on Exception catch (e) {
+      return Result.err(e);
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<Result<Todo>> getTodoById(String id) async {
+    final client = _clientHttpFactory();
+
+    try {
+      final request = await client.get(_host, _port, "/todos/$id");
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(utf8.decoder).join();
+        final jsonData = jsonDecode(stringData) as Map<String, dynamic>;
+        final Todo newTodo = Todo.fromJson(jsonData);
+        return Result.ok(newTodo);
+      }
+
+      return Result.err(const HttpException('Failed to getById'));
     } on Exception catch (e) {
       return Result.err(e);
     } finally {
