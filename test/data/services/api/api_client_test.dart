@@ -34,5 +34,17 @@ void main() {
       final deleteResult = await apiClient.deleteTodo(result.asOk.value);
       expect(deleteResult, isA<Result<void>>());
     });
+    test('should return a todo byId', () async {
+      final todo = Todo(title: 'New Todo - ${Random().nextInt(1000)}');
+      final result = await apiClient.postTodo(todo.title);
+      expect(result, isA<Result<Todo>>());
+      expect(result.asOk.value, isA<Todo>());
+      expect(result.asOk.value.title, equals(todo.title));
+
+      final getByIdResult = await apiClient.getTodoById(result.asOk.value.id!);
+      expect(getByIdResult, isA<Result<Todo>>());
+      expect(getByIdResult.asOk.value, isA<Todo>());
+      expect(getByIdResult.asOk.value.title, equals(todo.title));
+    });
   });
 }
