@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import '../view_models/todo_details.view_model.dart';
 
 class TodoDetailsScreen extends StatefulWidget {
+  final TodoDetailsViewModel viewModel;
   final String id;
-  const TodoDetailsScreen({super.key, required this.id});
+  const TodoDetailsScreen({
+    super.key,
+    required this.viewModel,
+    required this.id,
+  });
 
   @override
   State<TodoDetailsScreen> createState() => _TodoDetailsScreenState();
