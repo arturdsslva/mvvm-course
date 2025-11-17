@@ -12,17 +12,17 @@ class TodosRemoteRepository implements TodoRepository {
     : _apiClient = apiClient;
 
   @override
-  Future<Result<Todo>> create(String title) async {
-    return await _apiClient.postTodo(title);
-  }
+  Future<Result<Todo>> create(String title) async =>
+      await _apiClient.postTodo(title);
 
   @override
-  Future<Result<void>> delete(Todo todo) async {
-    return await _apiClient.deleteTodo(todo);
-  }
+  Future<Result<void>> delete(Todo todo) async =>
+      await _apiClient.deleteTodo(todo);
 
   @override
-  Future<Result<List<Todo>>> get() async {
-    return await _apiClient.getTodos();
-  }
+  Future<Result<List<Todo>>> get() async => await _apiClient.getTodos();
+
+  @override
+  Future<Result<Todo>> getById(String id) async =>
+      await _apiClient.getTodoById(id);
 }
