@@ -1,6 +1,8 @@
 import 'dart:convert' show Utf8Decoder, jsonDecode, jsonEncode, utf8;
 import 'dart:io' show HttpClient, HttpException;
 
+import 'package:mvvm_course/data/dtos/create_todo.dto.dart';
+import 'package:mvvm_course/data/dtos/update_todo.dto.dart';
 import 'package:mvvm_course/utils/result/result.dart';
 import '../../../domain/models/todo.model.dart';
 
@@ -37,18 +39,17 @@ class ApiClient {
     }
   }
 
-  Future<Result<Todo>> postTodo(String title) async {
+  Future<Result<Todo>> postTodo(CreateTodoDTO dto) async {
     final client = _clientHttpFactory();
     try {
       final request = await client.post(_host, _port, '/todos');
-      request.write(jsonEncode({'title': title}));
+      request.write(jsonEncode(dto.toJson()));
       final response = await request.close();
-
       if (response.statusCode == 201) {
         final stringData = await response.transform(Utf8Decoder()).join();
         final jsonData = jsonDecode(stringData) as Map<String, dynamic>;
-        final Todo newTodo = Todo.fromJson(jsonData);
-        return Result.ok(newTodo);
+        final Todo todo = Todo.fromJson(jsonData);
+        return Result.ok(todo);
       }
 
       return Result.err(const HttpException('Failed to create todo'));
@@ -59,10 +60,10 @@ class ApiClient {
     }
   }
 
-  Future<Result<void>> deleteTodo(Todo todo) async {
+  Future<Result<void>> deleteTodo(String id) async {
     final client = _clientHttpFactory();
     try {
-      final request = await client.delete(_host, _port, '/todos/${todo.id}');
+      final request = await client.delete(_host, _port, '/todos/$id');
       final result = await request.close();
 
       if (result.statusCode == 200) {
@@ -91,6 +92,27 @@ class ApiClient {
       }
 
       return Result.err(const HttpException('Failed to getById'));
+    } on Exception catch (e) {
+      return Result.err(e);
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<Result<Todo>> updateTodo(UpdateTodoDTO dto) async {
+    final client = _clientHttpFactory();
+    try {
+      final request = await client.put(_host, _port, '/todos/${dto.id}');
+      request.write(jsonEncode(dto.toJson()));
+      final response = await request.close();
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(Utf8Decoder()).join();
+        final jsonData = jsonDecode(stringData) as Map<String, dynamic>;
+        final Todo todo = Todo.fromJson(jsonData);
+        return Result.ok(todo);
+      }
+
+      return Result.err(const HttpException('Failed to update todo'));
     } on Exception catch (e) {
       return Result.err(e);
     } finally {
