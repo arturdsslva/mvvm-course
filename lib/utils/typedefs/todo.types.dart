@@ -1,3 +1,1 @@
-import '../../domain/models/todo.model.dart';
-
-typedef DeleteTodo = void Function(Todo todo);
+typedef DeleteTodo = void Function(String id);
