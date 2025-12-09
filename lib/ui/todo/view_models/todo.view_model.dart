@@ -11,15 +11,15 @@ class TodoViewModel extends ChangeNotifier {
   TodoViewModel({required TodoRepository todoRepository})
     : _todoRepository = todoRepository {
     load = Command0<List<Todo>>(_load)..execute();
-    create = Command1<Todo, String>(_create);
-    delete = Command1<void, Todo>(_delete);
+    create = Command1<Todo, (String, String, bool)>(_create);
+    delete = Command1<void, String>(_delete);
   }
 
   final TodoRepository _todoRepository;
 
   late Command0 load;
-  late Command1<Todo, String> create;
-  late Command1<void, Todo> delete;
+  late Command1<Todo, (String, String, bool)> create;
+  late Command1<void, String> delete;
 
   List<Todo> _todos = [];
   List<Todo> get todos => _todos;
@@ -39,8 +39,13 @@ class TodoViewModel extends ChangeNotifier {
     return result;
   }
 
-  Future<Result<Todo>> _create(String title) async {
-    final result = await _todoRepository.create(title);
+  Future<Result<Todo>> _create((String, String, bool) todo) async {
+    final (title, desc, done) = todo;
+    final result = await _todoRepository.create(
+      title: title,
+      desc: desc,
+      done: done,
+    );
     switch (result) {
       case Ok<Todo>(:final value):
         _todos.add(value);
@@ -54,11 +59,11 @@ class TodoViewModel extends ChangeNotifier {
     return result;
   }
 
-  Future<Result<void>> _delete(Todo todo) async {
-    final result = await _todoRepository.delete(todo);
+  Future<Result<void>> _delete(String id) async {
+    final result = await _todoRepository.delete(id);
     switch (result) {
       case Ok<void>():
-        _todos.remove(todo);
+        _todos.removeWhere((todo) => todo.id == id);
         notifyListeners();
 
         break;
