@@ -1,3 +1,6 @@
+import '../../dtos/create_todo.dto.dart';
+import '../../dtos/update_todo.dto.dart';
+
 import '../../services/api/api_client.dart';
 
 import '../../../domain/models/todo.model.dart';
@@ -12,12 +15,17 @@ class TodosRemoteRepository implements TodoRepository {
     : _apiClient = apiClient;
 
   @override
-  Future<Result<Todo>> create(String title) async =>
-      await _apiClient.postTodo(title);
+  Future<Result<Todo>> create({
+    required String title,
+    required String desc,
+    required bool done,
+  }) async => await _apiClient.postTodo(
+    CreateTodoDTO(title: title, desc: desc, done: done),
+  );
 
   @override
-  Future<Result<void>> delete(Todo todo) async =>
-      await _apiClient.deleteTodo(todo);
+  Future<Result<void>> delete(String id) async =>
+      await _apiClient.deleteTodo(id);
 
   @override
   Future<Result<List<Todo>>> get() async => await _apiClient.getTodos();
@@ -25,4 +33,16 @@ class TodosRemoteRepository implements TodoRepository {
   @override
   Future<Result<Todo>> getById(String id) async =>
       await _apiClient.getTodoById(id);
+
+  @override
+  Future<Result<Todo>> update({
+    required String id,
+    required String title,
+    required String desc,
+    required bool done,
+  }) async {
+    return await _apiClient.updateTodo(
+      UpdateTodoDTO(id: id, title: title, desc: desc, done: done),
+    );
+  }
 }
