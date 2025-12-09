@@ -3,8 +3,6 @@ import 'package:mvvm_course/ui/todo/view_models/todo.view_model.dart';
 import 'package:mvvm_course/ui/todo/widgets/add_todo_dialog.dart';
 import 'package:mvvm_course/ui/todo/widgets/todo_list.dart';
 
-import '../../../domain/models/todo.model.dart';
-
 class TodoScreen extends StatefulWidget {
   final TodoViewModel viewModel;
   const TodoScreen({super.key, required this.viewModel});
@@ -64,8 +62,8 @@ class _TodoScreenState extends State<TodoScreen> {
     );
   }
 
-  void delete(Todo todo) {
-    viewModel.delete.execute(todo);
+  void delete(String id) {
+    viewModel.delete.execute(id);
   }
 
   void _onDelete() {
