@@ -10,7 +10,7 @@ import '../ui/todo_details/view_models/todo_details.view_model.dart';
 
 GoRouter routerConfig() {
   final todoRepo = TodosRemoteRepository(
-    apiClient: ApiClient(host: "192.168.2.104"),
+    apiClient: ApiClient(host: "192.168.2.109"),
   );
 
   return GoRouter(
@@ -31,7 +31,7 @@ GoRouter routerConfig() {
 
               todoDetailsViewModel.load.execute(id);
 
-              return TodoDetailsScreen(viewModel: todoDetailsViewModel, id: id);
+              return TodoDetailsScreen(viewModel: todoDetailsViewModel);
             },
           ),
         ],
