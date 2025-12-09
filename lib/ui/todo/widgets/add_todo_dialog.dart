@@ -98,7 +98,11 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                 child: Text('Adicionar'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    viewModel.create.execute(_titleController.text);
+                    viewModel.create.execute((
+                      _titleController.text,
+                      '',
+                      false,
+                    ));
                   }
                 },
               ),
