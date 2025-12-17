@@ -7,8 +7,14 @@ import '../../../domain/models/todo.model.dart';
 
 class TodoTile extends StatelessWidget {
   final DeleteTodo delete;
+  final UpdateTodo updateTodo;
   final Todo todo;
-  const TodoTile({super.key, required this.todo, required this.delete});
+  const TodoTile({
+    super.key,
+    required this.todo,
+    required this.delete,
+    required this.updateTodo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,10 @@ class TodoTile extends StatelessWidget {
       onTap: () => context.push(Routes.todoDetail(todo.id)),
       child: Card(
         child: ListTile(
-          leading: Text(todo.id.toString()),
+          leading: Checkbox(
+            value: todo.done,
+            onChanged: (val) => updateTodo(todo.copyWith(done: val)),
+          ),
           title: Text(todo.title),
           trailing: IconButton(
             onPressed: () => delete(todo.id),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_course/domain/models/todo.model.dart';
 import 'package:mvvm_course/ui/todo/view_models/todo.view_model.dart';
 import 'package:mvvm_course/ui/todo/widgets/add_todo_dialog.dart';
 import 'package:mvvm_course/ui/todo/widgets/todo_list.dart';
@@ -44,7 +45,11 @@ class _TodoScreenState extends State<TodoScreen> {
         child: ListenableBuilder(
           listenable: viewModel,
           builder: (BuildContext context, Widget? child) {
-            return TodoList(todos: viewModel.todos, delete: delete);
+            return TodoList(
+              todos: viewModel.todos,
+              delete: delete,
+              update: update,
+            );
           },
         ),
       ),
@@ -64,6 +69,10 @@ class _TodoScreenState extends State<TodoScreen> {
 
   void delete(String id) {
     viewModel.delete.execute(id);
+  }
+
+  void update(Todo todo) {
+    viewModel.update.execute(todo);
   }
 
   void _onDelete() {
