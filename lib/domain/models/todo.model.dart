@@ -16,6 +16,15 @@ class Todo {
       desc = json['desc'] as String,
       done = json['done'] as bool;
 
+  Todo copyWith({String? title, String? desc, bool? done}) {
+    return Todo(
+      id: id,
+      title: title ?? this.title,
+      desc: desc ?? this.desc,
+      done: done ?? this.done,
+    );
+  }
+
   @override
   String toString() {
     return 'Todo{id: $id, title: $title, desc: $desc, done: $done}';
