@@ -10,7 +10,7 @@ import '../ui/todo_details/view_models/todo_details.view_model.dart';
 
 GoRouter routerConfig() {
   final todoRepo = TodosRemoteRepository(
-    apiClient: ApiClient(host: "192.168.2.109"),
+    apiClient: ApiClient(host: "192.168.2.107"),
   );
 
   return GoRouter(
